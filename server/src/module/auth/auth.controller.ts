@@ -4,6 +4,17 @@ import { loginUserSchema } from "./auth.schema.js";
 import mongoose from "mongoose";
 import jwt from "jsonwebtoken";
 
+
+const cookieBase = () => {
+  const isProduction = process.env.NODE_ENV === "production";
+  return {
+    httpOnly: true,
+    secure: isProduction,
+    sameSite: (isProduction ? "none" : "lax") as "none" | "lax",
+    path: "/",
+  };
+};
+
 export const loginController = async (req: Request, res: Response) => {
   try {
     const result = loginUserSchema.safeParse(req.body);
@@ -15,22 +26,14 @@ export const loginController = async (req: Request, res: Response) => {
     }
     const { email, password } = result.data;
     const resultLogin = await loginService(email, password);
-    const isProduction = process.env.NODE_ENV === "production";
-
     res.cookie("accessToken", resultLogin.token, {
-      httpOnly: true,
-      secure: isProduction,
-      sameSite: isProduction ? "none" : "lax",
+      ...cookieBase(),
       maxAge: 15 * 60 * 1000,
-      path: "/",
     });
 
     res.cookie("refreshToken", resultLogin.refreshToken, {
-      httpOnly: true,
-      secure: isProduction,
-      sameSite: isProduction ? "none" : "lax",
+      ...cookieBase(),
       maxAge: 7 * 24 * 60 * 60 * 1000,
-      path: "/",
     });
 
     return res.status(200).json({
@@ -92,9 +95,7 @@ export const refreshTokenController = async (req: Request, res: Response) => {
     );
 
     res.cookie("accessToken", newAccessToken, {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
-      sameSite: "strict",
+      ...cookieBase(),
       maxAge: 15 * 60 * 1000,
     });
 
@@ -162,8 +163,8 @@ export const logoutController = async (req: Request, res: Response) => {
       await logoutService(refreshToken);
     }
 
-    res.clearCookie("accessToken");
-    res.clearCookie("refreshToken");
+    res.clearCookie("accessToken", cookieBase());
+    res.clearCookie("refreshToken", cookieBase());
 
     return res.status(200).json({
       message: "Logout successful",
