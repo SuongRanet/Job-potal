@@ -1,0 +1,116 @@
+@import "tailwindcss";
+@import "@fontsource-variable/kantumruy-pro";
+@import "@fontsource-variable/noto-sans-khmer";
+
+@custom-variant dark (&:is(.dark *));
+
+/* Tokens mirror client/src/index.css: zinc neutrals with a violet accent. */
+@theme inline {
+  --font-sans: "Kantumruy Pro Variable", "Noto Sans Khmer Variable", system-ui, sans-serif;
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-warning: var(--warning);
+  --color-success: var(--success);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-sidebar: var(--sidebar);
+  --radius-sm: 0.3rem;
+  --radius-md: 0.4rem;
+  --radius-lg: 0.5rem;
+  --radius-xl: 0.7rem;
+}
+
+:root {
+  --background: oklch(0.985 0 0);
+  --foreground: oklch(0.141 0.005 286);
+  --card: oklch(1 0 0);
+  --primary: oklch(0.541 0.281 293);
+  --primary-foreground: oklch(0.985 0 0);
+  --secondary: oklch(0.967 0.001 286);
+  --muted: oklch(0.967 0.001 286);
+  --muted-foreground: oklch(0.442 0.017 286);
+  --accent: oklch(0.943 0.029 295);
+  --accent-foreground: oklch(0.38 0.2 293);
+  --destructive: oklch(0.577 0.245 27);
+  --warning: oklch(0.5 0.12 70);
+  --success: oklch(0.45 0.12 155);
+  --border: oklch(0.92 0.004 286);
+  --input: oklch(0.871 0.006 286);
+  --ring: oklch(0.606 0.25 293);
+  --sidebar: oklch(0.97 0.004 286);
+  --brand-panel: oklch(0.32 0.15 293);
+}
+
+.dark {
+  --background: oklch(0.141 0.005 286);
+  --foreground: oklch(0.985 0 0);
+  --card: oklch(0.21 0.006 286);
+  --primary: oklch(0.709 0.159 293);
+  --primary-foreground: oklch(0.141 0.005 286);
+  --secondary: oklch(0.274 0.006 286);
+  --muted: oklch(0.274 0.006 286);
+  --muted-foreground: oklch(0.705 0.015 286);
+  --accent: oklch(0.28 0.07 293);
+  --accent-foreground: oklch(0.811 0.111 294);
+  --destructive: oklch(0.704 0.191 22);
+  --warning: oklch(0.82 0.13 80);
+  --success: oklch(0.8 0.15 155);
+  --border: oklch(1 0 0 / 10%);
+  --input: oklch(1 0 0 / 15%);
+  --ring: oklch(0.709 0.159 293);
+  --sidebar: oklch(0.175 0.006 286);
+  --brand-panel: oklch(0.22 0.08 293);
+}
+
+@layer base {
+  * {
+    border-color: var(--border);
+    outline-color: color-mix(in oklch, var(--ring) 50%, transparent);
+  }
+  html {
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    scrollbar-color: color-mix(in oklch, var(--foreground) 28%, transparent) transparent;
+  }
+  body {
+    background: var(--background);
+    color: var(--foreground);
+  }
+  ::selection {
+    background: color-mix(in oklch, var(--primary) 28%, transparent);
+    color: inherit;
+  }
+  input {
+    caret-color: var(--primary);
+  }
+  :focus-visible {
+    outline: 2px solid var(--ring);
+    outline-offset: 2px;
+  }
+  .tabular {
+    font-variant-numeric: tabular-nums;
+  }
+}
+
+@keyframes bar-grow {
+  from { transform: scaleY(0); }
+}
+@keyframes bar-grow-x {
+  from { transform: scaleX(0); }
+}
+@keyframes shimmer {
+  50% { opacity: 0.5; }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+}
