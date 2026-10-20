@@ -6,7 +6,7 @@ export default {
     toDark: "Switch to dark mode",
     language: "Language",
   },
-  meta: { title: "JobKH – Jobs in Cambodia" },
+  meta: { title: "CamboWork" },
   hero: { title: "Jobs in Cambodia" },
   search: {
     placeholder: "Job title, company or keyword",

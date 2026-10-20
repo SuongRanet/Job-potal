@@ -11,7 +11,6 @@ const App = () => {
   const [initialQuery, setInitialQuery] = useState("")
   const [pageKey, setPageKey] = useState(0)
 
-  // Remount JobsPage on navigation so filters reset (or start from a company name)
   const navigate = (next: View, query = "") => {
     setView(next)
     setInitialQuery(query)

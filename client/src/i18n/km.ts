@@ -8,7 +8,7 @@ const km: typeof en = {
     toDark: "ប្តូរទៅរបៀបងងឹត",
     language: "ភាសា",
   },
-  meta: { title: "JobKH – ការងារនៅកម្ពុជា" },
+  meta: { title: "ខេមបូវើកកឺ" },
   hero: { title: "ការងារនៅកម្ពុជា" },
   search: {
     placeholder: "ឈ្មោះមុខតំណែង ក្រុមហ៊ុន ឬពាក្យគន្លឹះ",
