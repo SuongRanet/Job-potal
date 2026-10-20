@@ -1,7 +1,7 @@
 import axios, { AxiosError, type InternalAxiosRequestConfig } from "axios";
 
 export const api = axios.create({
-  baseURL: import.meta.env.VITE_API_URL ?? "/api/v1",
+  baseURL: import.meta.env.API_URL ?? "/api/v1",
   withCredentials: true,
 });
 
@@ -33,9 +33,16 @@ api.interceptors.response.use(undefined, async (error: AxiosError) => {
 
 export function errorMessage(error: unknown, fallback: string) {
   if (axios.isAxiosError(error)) {
-    if (!error.response) return "Can't reach the server. Check your connection and try again.";
-    const data = error.response.data as { message?: string; errors?: unknown } | undefined;
-    if (Array.isArray(data?.errors) && data.errors.length && data.errors.every((x) => typeof x === "string"))
+    if (!error.response)
+      return "Can't reach the server. Check your connection and try again.";
+    const data = error.response.data as
+      | { message?: string; errors?: unknown }
+      | undefined;
+    if (
+      Array.isArray(data?.errors) &&
+      data.errors.length &&
+      data.errors.every((x) => typeof x === "string")
+    )
       return (data.errors as string[]).join(" · ");
     if (data?.message) return data.message;
   }
