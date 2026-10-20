@@ -204,55 +204,6 @@ function Monthly({ data }: { data: Dashboard | null }) {
   );
 }
 
-function Breakdown({
-  title,
-  rows,
-  map = (s: string) => s,
-}: {
-  title: string;
-  rows?: Pair[];
-  map?: (s: string) => string;
-}) {
-  const max = Math.max(1, ...(rows?.map((r) => r.count) ?? [0]));
-  return (
-    <section>
-      <h2 className="text-base font-semibold">{title}</h2>
-      {!rows ? (
-        <div className="mt-4 space-y-3">
-          {[0, 1, 2].map((i) => (
-            <Skeleton key={i} className="h-5 w-full" />
-          ))}
-        </div>
-      ) : rows.length === 0 ? (
-        <p className="mt-3 text-sm text-muted-foreground">
-          Nothing to break down yet.
-        </p>
-      ) : (
-        <ul className="mt-4 space-y-3">
-          {rows.map((r) => (
-            <li key={r.name}>
-              <div className="flex items-baseline justify-between gap-3 text-sm">
-                <span className="truncate">{map(r.name)}</span>
-                <span className="tabular font-medium">{num(r.count)}</span>
-              </div>
-              <div className="mt-1.5 h-1.5 overflow-hidden rounded-full bg-muted">
-                <div
-                  className="h-full origin-left rounded-full bg-primary"
-                  style={{
-                    width: `${(r.count / max) * 100}%`,
-                    animation:
-                      "bar-grow-x 600ms cubic-bezier(0.22,1,0.36,1) backwards",
-                  }}
-                />
-              </div>
-            </li>
-          ))}
-        </ul>
-      )}
-    </section>
-  );
-}
-
 function StatusPill({ job }: { job: RecentJob }) {
   const left = daysUntil(job.deadline);
   const soon = job.status === "OPEN" && left !== null && left <= 7;
