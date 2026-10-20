@@ -1,9 +1,5 @@
 import type { Request, Response } from "express";
-import {
-  getUserByID,
-  loginService,
-  logoutService,
-} from "./auth.service.js";
+import { getUserByID, loginService, logoutService } from "./auth.service.js";
 import { loginUserSchema } from "./auth.schema.js";
 import mongoose from "mongoose";
 import jwt from "jsonwebtoken";
@@ -19,18 +15,22 @@ export const loginController = async (req: Request, res: Response) => {
     }
     const { email, password } = result.data;
     const resultLogin = await loginService(email, password);
+    const isProduction = process.env.NODE_ENV === "production";
+
     res.cookie("accessToken", resultLogin.token, {
       httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
-      sameSite: "strict",
-      maxAge: 15 * 60 * 1000, // 15 minutes
+      secure: isProduction,
+      sameSite: isProduction ? "none" : "lax",
+      maxAge: 15 * 60 * 1000,
+      path: "/",
     });
 
     res.cookie("refreshToken", resultLogin.refreshToken, {
       httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
-      sameSite: "strict",
-      maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
+      secure: isProduction,
+      sameSite: isProduction ? "none" : "lax",
+      maxAge: 7 * 24 * 60 * 60 * 1000,
+      path: "/",
     });
 
     return res.status(200).json({
@@ -73,7 +73,7 @@ export const refreshTokenController = async (req: Request, res: Response) => {
     ) as {
       id: string;
     };
-    
+
     const user = await getUserByID(decoded.id);
     if (!user) {
       return res.status(401).json({
