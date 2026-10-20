@@ -6,7 +6,6 @@ import { errorMessage } from "@/lib/api";
 import {
   fetchDashboard,
   type Dashboard,
-  type Pair,
   type RecentJob,
 } from "@/lib/dashboard-api";
 import { daysUntil, fmtDate, monthShort, num, typeLabel } from "@/lib/format";
